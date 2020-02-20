@@ -8,7 +8,7 @@
 void GameLevel::Load(const GLchar* file, GLuint levelWidth, GLuint levelHeight)
 {
     // Clear old data
-    this->Bricks.clear();
+    this->Tiles.clear();
     // Load from file
     GLuint tileCode;
     GameLevel level;
@@ -18,6 +18,8 @@ void GameLevel::Load(const GLchar* file, GLuint levelWidth, GLuint levelHeight)
     std::vector<std::vector<GLuint>> tileData;
     if (fstream)
     {
+        // Skip first line
+        std::getline(fstream, line);
         while (std::getline(fstream, line)) // Read each line from level file
         {
             std::istringstream sstream(line);
@@ -33,15 +35,15 @@ void GameLevel::Load(const GLchar* file, GLuint levelWidth, GLuint levelHeight)
 
 void GameLevel::Draw(SpriteRenderer& renderer)
 {
-    for (GameObject& tile : this->Bricks)
-        if (!tile.Destroyed)
+    for (GameObject& tile : this->Tiles)
+        if (tile.IsVisible)
             tile.Draw(renderer);
 }
 
 GLboolean GameLevel::IsCompleted()
 {
-    for (GameObject& tile : this->Bricks)
-        if (!tile.IsSolid && !tile.Destroyed)
+    for (GameObject& tile : this->Tiles)
+        if (!tile.IsSolid && tile.IsVisible)
             return GL_FALSE;
     return GL_TRUE;
 }
@@ -57,20 +59,20 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
     {
         for (GLuint x = 0; x < width; ++x)
         {
-            // Check block type from level data (2D level array)
-            if (tileData[y][x] == 1) // Solid
+            // Check block type from level data
+            if (tileData[y][x] == 1) // Wall
             {
                 glm::vec2 pos(unit_width * x, unit_height * y);
                 glm::vec2 size(unit_width, unit_height);
                 GameObject obj(pos, size, ResourceManager::GetTexture("wall"));
                 obj.IsSolid = GL_TRUE;
-                this->Bricks.push_back(obj);
+                this->Tiles.push_back(obj);
             }
-            else if (tileData[y][x] != 1)	// Non-solid; now determine its color based on level data
+            else if (tileData[y][x] == 0)	// Food
             {         
                 glm::vec2 pos(unit_width * x, unit_height * y);
                 glm::vec2 size(unit_width, unit_height);
-                this->Bricks.push_back(GameObject(pos, size, ResourceManager::GetTexture("food")));
+                this->Tiles.push_back(GameObject(pos, size, ResourceManager::GetTexture("food")));
             }
         }
     }

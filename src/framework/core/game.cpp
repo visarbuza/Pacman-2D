@@ -4,7 +4,6 @@
 
 SpriteRenderer* Renderer;
 
-
 Game::Game(GLuint width, GLuint height) 
 	: State(GAME_ACTIVE), Keys(), Width(width), Height(height) { }
 
@@ -30,7 +29,7 @@ void Game::Init()
     this->Levels.push_back(one);
     this->Level = 0;
     // Set render-specific controls
-	Shader myShader = ResourceManager::GetShader("sprite");
+	  Shader myShader = ResourceManager::GetShader("sprite");
     Renderer = new SpriteRenderer(myShader);
 }
 
@@ -46,14 +45,10 @@ void Game::ProcessInput(GLfloat dt)
 }
 
 void Game::Render()
-{
-	//Texture2D myTexture = ResourceManager::GetTexture("food");
-    //Renderer->DrawSprite(myTexture, glm::vec2(200, 200), glm::vec2(64, 64), 0.0f, glm::vec3(1.0f, 1.0f, 1.0f));
-
-
+{ 
     if (this->State == GAME_ACTIVE)
     {
-        // Draw level
-        this->Levels[this->Level].Draw(*Renderer);
+      // Draw level
+      this->Levels[this->Level].Draw(*Renderer);
     }
 }

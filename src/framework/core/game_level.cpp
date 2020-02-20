@@ -58,8 +58,8 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
     {
         for (GLuint x = 0; x < width; ++x)
         {
-            // Check block type from level data (2D level array)
-            if (tileData[y][x] == 1) // Solid
+            // Check block type from level data
+            if (tileData[y][x] == 1) // Wall
             {
                 glm::vec2 pos(unit_width * x, unit_height * y);
                 glm::vec2 size(unit_width, unit_height);
@@ -67,7 +67,7 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
                 obj.IsSolid = GL_TRUE;
                 this->Tiles.push_back(obj);
             }
-            else if (tileData[y][x] != 1)	// Non-solid; now determine its color based on level data
+            else if (tileData[y][x] == 0)	// Food
             {         
                 glm::vec2 pos(unit_width * x, unit_height * y);
                 glm::vec2 size(unit_width, unit_height);

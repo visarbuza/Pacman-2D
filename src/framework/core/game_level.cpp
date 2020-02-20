@@ -17,6 +17,8 @@ void GameLevel::Load(const GLchar* file, GLuint levelWidth, GLuint levelHeight)
     std::vector<std::vector<GLuint>> tileData;
     if (fstream)
     {
+        // Skip first line
+        std::getline(fstream, line);
         while (std::getline(fstream, line)) // Read each line from level file
         {
             std::istringstream sstream(line);

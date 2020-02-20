@@ -7,7 +7,7 @@
 void GameLevel::Load(const GLchar* file, GLuint levelWidth, GLuint levelHeight)
 {
     // Clear old data
-    this->Bricks.clear();
+    this->Tiles.clear();
     // Load from file
     GLuint tileCode;
     GameLevel level;
@@ -65,13 +65,13 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
                 glm::vec2 size(unit_width, unit_height);
                 GameObject obj(pos, size, ResourceManager::GetTexture("wall"));
                 obj.IsSolid = GL_TRUE;
-                this->Bricks.push_back(obj);
+                this->Tiles.push_back(obj);
             }
             else if (tileData[y][x] != 1)	// Non-solid; now determine its color based on level data
             {         
                 glm::vec2 pos(unit_width * x, unit_height * y);
                 glm::vec2 size(unit_width, unit_height);
-                this->Bricks.push_back(GameObject(pos, size, ResourceManager::GetTexture("food")));
+                this->Tiles.push_back(GameObject(pos, size, ResourceManager::GetTexture("food")));
             }
         }
     }

@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     GLfloat lastFrame = 0.0f;
 
     // Start Game within Menu State
-    Pacman.State = GAME_MENU;
+    Pacman.State = GAME_ACTIVE;
 
     do
     {

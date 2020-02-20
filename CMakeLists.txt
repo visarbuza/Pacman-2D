@@ -28,6 +28,12 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/include/sprite_renderer.h
     ${CMAKE_CURRENT_LIST_DIR}/src/framework/rendering/sprite_renderer.cpp
 
+    ${CMAKE_CURRENT_LIST_DIR}/include/game_object.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/framework/core/game_object.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/include/game_level.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/framework/core/game_level.cpp
+
 )
 
 # Set include directories

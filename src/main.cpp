@@ -3,7 +3,9 @@
 #include <glm/glm.hpp>
 #include <stb_image.h>
 #include <gfx.h>
-
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
 #include "game.h"
 #include "resource_manager.h"
 
@@ -15,95 +17,137 @@ const GLuint SCREEN_WIDTH = 1280;
 // The height of the screen
 const GLuint SCREEN_HEIGHT = 960;
 
+const auto glsl_version = "#version 430 core";
+
+bool show_menu = true;
+
 Game Pacman(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    if (!glfwInit())
-    {
-        GFX_ERROR("Failed to initialize GLFW\n");
-        return -1;
-    }
-    glfwWindowHint(GLFW_SAMPLES, 2);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	if (!glfwInit())
+	{
+		GFX_ERROR("Failed to initialize GLFW\n");
+		return -1;
+	}
+	glfwWindowHint(GLFW_SAMPLES, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Pacman", nullptr, nullptr);
-    if (window == nullptr)
-    {
-        GFX_ERROR("Failed to open GLFW window.\n");
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
+	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Pacman", nullptr, nullptr);
+	if (window == nullptr)
+	{
+		GFX_ERROR("Failed to open GLFW window.\n");
+		return -1;
+	}
+	glfwMakeContextCurrent(window);
 
-    if (!gladLoadGL())
-    {
-        GFX_ERROR("Failed to initialize GLAD\n");
-    }
+	if (!gladLoadGL())
+	{
+		GFX_ERROR("Failed to initialize GLAD\n");
+	}
 
-    glfwSetKeyCallback(window, key_callback);
+	glfwSetKeyCallback(window, key_callback);
 
-    // OpenGL configuration
-    glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// OpenGL configuration
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // Initialize game
-    Pacman.Init();
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init(glsl_version);
 
-    // DeltaTime variables
-    GLfloat deltaTime = 0.0f;
-    GLfloat lastFrame = 0.0f;
 
-    // Start Game within Menu State
-    Pacman.State = GAME_ACTIVE;
+	// Initialize game
+	Pacman.Init();
 
-    do
-    {
-        // Calculate delta time
-        GLfloat currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
-        glfwPollEvents();
+	// DeltaTime variables
+	GLfloat deltaTime = 0.0f;
+	GLfloat lastFrame = 0.0f;
 
-        //deltaTime = 0.001f;
-        // Manage user input
-        Pacman.ProcessInput(deltaTime);
+	// Start Game within Menu State
+	Pacman.State = GAME_MENU;
 
-        // Update Game state
-        Pacman.Update(deltaTime);
 
-        // Render
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        Pacman.Render();
+	do
+	{
+		// Calculate delta time
+		GLfloat currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+		glfwPollEvents();
 
-        glfwSwapBuffers(window);
-    } while(!glfwWindowShouldClose(window));
+		//deltaTime = 0.001f;
+		// Manage user input
+		Pacman.ProcessInput(deltaTime);
 
-    // Delete all resources as loaded using the resource manager
-    ResourceManager::Clear();
+		// Update Game state
+		Pacman.Update(deltaTime);
 
-    glfwTerminate();
-    return 0;
+		// Render
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+		Pacman.Render();
+
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		if (show_menu)
+		{
+			ImGui::Begin("Pacman");
+			if (ImGui::Button("New Game"))
+			{
+				Pacman.State = GAME_ACTIVE;
+				show_menu = false;
+			}
+			if (ImGui::Button("Exit Game"))
+			{
+				glfwSetWindowShouldClose(window, GL_TRUE);
+			}
+			ImGui::End();
+		}
+
+
+
+		ImGui::Render();
+		int display_w, display_h;
+		glfwGetFramebufferSize(window, &display_w, &display_h);
+		glViewport(0, 0, display_w, display_h);
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		glfwSwapBuffers(window);
+	} while (!glfwWindowShouldClose(window));
+
+	//Delete all resources as loaded using the resource manager
+	ResourceManager::Clear();
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+	glfwTerminate();
+	return 0;
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
-    // When a user presses the escape key, we set the WindowShouldClose property to true, closing the application
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-    if (key >= 0 && key < 1024)
-    {
-        if (action == GLFW_PRESS)
-            Pacman.Keys[key] = GL_TRUE;
-        else if (action == GLFW_RELEASE)
-            Pacman.Keys[key] = GL_FALSE;
-    }
+	// When a user presses the escape key, we set the WindowShouldClose property to true, closing the application
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		//glfwSetWindowShouldClose(window, GL_TRUE);
+		show_menu = true;
+	if (key >= 0 && key < 1024)
+	{
+		if (action == GLFW_PRESS)
+			Pacman.Keys[key] = GL_TRUE;
+		else if (action == GLFW_RELEASE)
+			Pacman.Keys[key] = GL_FALSE;
+	}
 }
 
 

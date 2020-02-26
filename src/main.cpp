@@ -103,10 +103,17 @@ int main(int argc, char* argv[])
 		if (show_menu)
 		{
 			ImGui::Begin("Pacman");
-			if (ImGui::Button("New Game"))
-			{
-				Pacman.State = GAME_ACTIVE;
-				show_menu = false;
+			if (Pacman.State == GAME_PAUSED) {
+				if (ImGui::Button("Resume Game")) {
+					Pacman.State = GAME_ACTIVE;
+					show_menu = false;
+				}
+			} else {
+				if (ImGui::Button("New Game"))
+				{
+					Pacman.State = GAME_ACTIVE;
+					show_menu = false;
+				}
 			}
 			if (ImGui::Button("Exit Game"))
 			{
@@ -141,6 +148,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		//glfwSetWindowShouldClose(window, GL_TRUE);
 		show_menu = true;
+		Pacman.State = GAME_PAUSED;
 	if (key >= 0 && key < 1024)
 	{
 		if (action == GLFW_PRESS)

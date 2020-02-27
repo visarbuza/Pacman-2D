@@ -36,8 +36,8 @@ void Game::Init()
     Renderer = new SpriteRenderer(myShader);
 
     // Configure player
-    glm::vec2 playerPos = glm::vec2(0, this->Height / 2 - PLAYER_SIZE.y);
-    Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("pacman"));
+    glm::vec2 playerPos = glm::vec2(0, this->Height / 2 - this->Levels[this->Level].PLAYER_SIZE.y);
+    Player = new GameObject(playerPos, this->Levels[this->Level].PLAYER_SIZE, ResourceManager::GetTexture("pacman"));
 }
 
 void Game::Update(GLfloat dt)
@@ -50,7 +50,7 @@ void Game::ProcessInput(GLfloat dt)
 {
     if (this->State == GAME_ACTIVE)
     {
-        GLfloat velocity = PLAYER_VELOCITY * dt;
+        GLfloat velocity = this->Levels[this->Level].PLAYER_VELOCITY * dt;
         // Move playerboard
         if (this->Keys[GLFW_KEY_A])
         {

@@ -14,11 +14,6 @@ enum GameState {
     GAME_WIN
 };
 
-// Initial size of pacman
-const glm::vec2 PLAYER_SIZE(30, 30);
-// Initial velocity of pacman
-const GLfloat PLAYER_VELOCITY(500.0f);
-
 // Game holds all game-related state and functionality.
 // Combines all game-related data into a single class for
 // easy access to each of the components and manageability.

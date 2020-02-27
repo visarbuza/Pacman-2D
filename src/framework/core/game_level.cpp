@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 
 void GameLevel::Load(const GLchar* file, GLuint levelWidth, GLuint levelHeight)

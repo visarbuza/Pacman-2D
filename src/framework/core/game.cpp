@@ -54,13 +54,17 @@ void Game::ProcessInput(GLfloat dt)
         // Move playerboard
         if (this->Keys[GLFW_KEY_A])
         {
-            if (Player->Position.x >= 0)
-                Player->Position.x -= velocity;
+            if (Player->Position.x >= 0 - Player->Size.x)
+              Player->Position.x -= velocity;
+            else
+              Player->Position.x = this->Width;
         }
         if (this->Keys[GLFW_KEY_D])
         {
-            if (Player->Position.x <= this->Width - Player->Size.x)
-                Player->Position.x += velocity;
+            if (Player->Position.x <= this->Width)
+              Player->Position.x += velocity;
+            else
+              Player->Position.x = 0 - Player->Size.x;
         }
         if (this->Keys[GLFW_KEY_W])
         {

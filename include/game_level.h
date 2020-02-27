@@ -15,6 +15,8 @@
 class GameLevel
 {
 public:
+    // Initial player position
+    glm::vec2 PLAYER_POSITION;
     // Player size relative to level
     glm::vec2 PLAYER_SIZE;
     // Player velocity relative to level

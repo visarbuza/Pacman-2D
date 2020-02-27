@@ -19,8 +19,6 @@ const GLuint SCREEN_HEIGHT = 960;
 
 const auto glsl_version = "#version 430 core";
 
-bool show_menu = true;
-
 Game Pacman(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 int main(int argc, char* argv[])
@@ -100,19 +98,17 @@ int main(int argc, char* argv[])
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		if (show_menu)
+		if (Pacman.State == GAME_PAUSED || Pacman.State == GAME_MENU)
 		{
 			ImGui::Begin("Pacman");
 			if (Pacman.State == GAME_PAUSED) {
 				if (ImGui::Button("Resume Game")) {
 					Pacman.State = GAME_ACTIVE;
-					show_menu = false;
 				}
 			} else {
 				if (ImGui::Button("New Game"))
 				{
 					Pacman.State = GAME_ACTIVE;
-					show_menu = false;
 				}
 			}
 			if (ImGui::Button("Exit Game"))
@@ -147,7 +143,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	// When a user presses the escape key, we set the WindowShouldClose property to true, closing the application
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		//glfwSetWindowShouldClose(window, GL_TRUE);
-		show_menu = true;
 		Pacman.State = GAME_PAUSED;
 	if (key >= 0 && key < 1024)
 	{

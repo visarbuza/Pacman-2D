@@ -1,10 +1,11 @@
 #include "game.h"
 #include "resource_manager.h"
 #include "sprite_renderer.h"
+#include "pac_object.h"
 #include "util.cpp"
 
 SpriteRenderer *Renderer;
-GameObject *Player;
+PacObject *Player;
 
 Game::Game(GLuint width, GLuint height)
     : State(GAME_ACTIVE), Keys(), Width(width), Height(height) {}
@@ -38,7 +39,9 @@ void Game::Init()
 
   // Configure player
   glm::vec2 playerPos = glm::vec2(this->Levels[this->Level].PLAYER_POSITION.x, this->Levels[this->Level].PLAYER_POSITION.y);
-  Player = new GameObject(playerPos, this->Levels[this->Level].PLAYER_SIZE, ResourceManager::GetTexture("pacman"));
+  GLfloat playerRadius = this->Levels[this->Level].PLAYER_RADIUS;
+  GLfloat playerVelocity = this->Levels[this->Level].PLAYER_VELOCITY;
+  Player = new PacObject(playerPos, playerRadius, playerVelocity, ResourceManager::GetTexture("pacman"));
 }
 
 void Game::Update(GLfloat dt)

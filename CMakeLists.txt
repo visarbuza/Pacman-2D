@@ -34,6 +34,9 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/include/game_level.h
     ${CMAKE_CURRENT_LIST_DIR}/src/framework/core/game_level.cpp
 
+    ${CMAKE_CURRENT_LIST_DIR}/include/pac_object.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/framework/core/pac_object.cpp
+
     ${CMAKE_CURRENT_LIST_DIR}/src/imgui/imconfig.h
     ${CMAKE_CURRENT_LIST_DIR}/src/imgui/imgui.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/imgui/imgui_demo.cpp

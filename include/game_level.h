@@ -21,6 +21,8 @@ public:
     glm::vec2 PLAYER_SIZE;
     // Player velocity relative to level
     GLfloat PLAYER_VELOCITY;
+    // Player radius
+    GLfloat PLAYER_RADIUS;
     // Level state
     std::vector<GameObject> Tiles;
     // Constructor

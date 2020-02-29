@@ -26,6 +26,7 @@ public:
     GLuint                 Width, Height;
     std::vector<GameLevel> Levels;
     GLuint                 Level;
+    GLuint                 Score;
     // Constructor/Destructor
     Game(GLuint width, GLuint height);
     ~Game();

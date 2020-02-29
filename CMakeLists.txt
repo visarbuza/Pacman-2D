@@ -7,6 +7,9 @@ add_subdirectory(external)
 # Create .exe file (essentially)
 add_executable(${PROJECT_NAME})
 
+# Find freetype
+find_package(Freetype REQUIRED)
+
 # Add additional source files here
 target_sources(
     ${PROJECT_NAME}
@@ -37,6 +40,9 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/include/pac_object.h
     ${CMAKE_CURRENT_LIST_DIR}/src/framework/core/pac_object.cpp
 
+    ${CMAKE_CURRENT_LIST_DIR}/include/text_renderer.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/framework/rendering/text_renderer.cpp
+
     ${CMAKE_CURRENT_LIST_DIR}/src/imgui/imconfig.h
     ${CMAKE_CURRENT_LIST_DIR}/src/imgui/imgui.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/imgui/imgui_demo.cpp
@@ -57,6 +63,7 @@ target_include_directories(
     PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/include
     ${CMAKE_CURRENT_LIST_DIR}/src
+    ${FREETYPE_INCLUDE_DIRS}
 )
 
 # Link with external libraries
@@ -68,6 +75,7 @@ target_link_libraries(
     glm
     glfw
     stbimage::stbimage
+    ${FREETYPE_LIBRARIES}
 )
 
 # Enable C++ 17

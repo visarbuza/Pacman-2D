@@ -34,7 +34,7 @@ void Game::Init()
   ResourceManager::LoadTexture("resources/textures/pacman.png", GL_TRUE, "pacman");
 
   GameLevel one;
-  one.Load("../levels/level0", this->Width, this->Height);
+  one.Load("resources/levels/level0", this->Width, this->Height);
   this->Levels.push_back(one);
   this->Level = 0;
   this->Score = 0;
@@ -203,7 +203,7 @@ void Game::Render()
 }
 
 void Game::ResetLevel() {
-  this->Levels[0].Load("../levels/level0", this->Width, this->Height);
+  this->Levels[0].Load("resources/levels/level0", this->Width, this->Height);
   this->Score = 0;
 }
 

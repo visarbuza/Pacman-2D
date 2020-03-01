@@ -72,8 +72,8 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
       }
       else if (tileData[y][x] == 0) // Food
       {
-        glm::vec2 pos(unit_width * x, unit_height * y);
-        glm::vec2 size(unit_width, unit_height);
+        glm::vec2 pos(unit_width * x + (unit_width / 3), unit_height * y + (unit_height / 3)); // Center by adding the size to the position
+        glm::vec2 size(unit_width / 3, unit_height / 3);
         GameObject obj(pos, size, ResourceManager::GetTexture("food"));
         obj.IsSolid = GL_FALSE;
         this->Tiles.push_back(obj);

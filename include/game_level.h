@@ -23,6 +23,8 @@ public:
     GLfloat PLAYER_VELOCITY;
     // Player radius
     GLfloat PLAYER_RADIUS;
+    // Initial ghost position
+    glm::vec2 GHOST_POSITION;
     // Level state
     std::vector<GameObject> Tiles;
     // Constructor

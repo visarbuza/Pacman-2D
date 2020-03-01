@@ -43,6 +43,9 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/include/text_renderer.h
     ${CMAKE_CURRENT_LIST_DIR}/src/framework/rendering/text_renderer.cpp
 
+    ${CMAKE_CURRENT_LIST_DIR}/include/ghost_object.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/framework/core/ghost_object.cpp
+
     ${CMAKE_CURRENT_LIST_DIR}/src/imgui/imconfig.h
     ${CMAKE_CURRENT_LIST_DIR}/src/imgui/imgui.cpp
     ${CMAKE_CURRENT_LIST_DIR}/src/imgui/imgui_demo.cpp

@@ -1,14 +1,20 @@
 #include <sstream>
+#include <cstdlib>
 #include "game.h"
 #include "resource_manager.h"
 #include "sprite_renderer.h"
 #include "pac_object.h"
+#include "ghost_object.h"
 #include "util.cpp"
 #include "text_renderer.h"
 
-SpriteRenderer *Renderer;
-PacObject *Player;
-TextRenderer *Text;
+SpriteRenderer  *Renderer;
+PacObject       *Player;
+TextRenderer    *Text;
+GhostObject           *Blinky;
+GhostObject           *Pinky;
+GhostObject           *Inky;
+GhostObject           *Clyde;
 
 Game::Game(GLuint width, GLuint height)
     : State(GAME_ACTIVE), Keys(), Width(width), Height(height) {}
@@ -18,6 +24,10 @@ Game::~Game()
   delete Renderer;
   delete Player;
   delete Text;
+  delete Blinky;
+  delete Pinky;
+  delete Inky;
+  delete Clyde;
 }
 
 void Game::Init()
@@ -32,6 +42,10 @@ void Game::Init()
   ResourceManager::LoadTexture("resources/textures/food.png", GL_TRUE, "food");
   ResourceManager::LoadTexture("resources/textures/wall.png", GL_TRUE, "wall");
   ResourceManager::LoadTexture("resources/textures/pacman.png", GL_TRUE, "pacman");
+  ResourceManager::LoadTexture("resources/textures/ghost.png", GL_TRUE, "ghost");
+  ResourceManager::LoadTexture("resources/textures/ghost2.png", GL_TRUE, "ghost2");
+  ResourceManager::LoadTexture("resources/textures/ghost3.png", GL_TRUE, "ghost3");
+  ResourceManager::LoadTexture("resources/textures/ghost4.png", GL_TRUE, "ghost4");
 
   GameLevel one;
   one.Load("resources/levels/level0", this->Width, this->Height);
@@ -47,6 +61,7 @@ void Game::Init()
 
   // Configure player
   this->ResetPlayer();
+  this->ResetGhosts();
 }
 
 void Game::Update(GLfloat dt)
@@ -54,6 +69,56 @@ void Game::Update(GLfloat dt)
   if (this->State == GAME_ACTIVE && this->Levels[this->Level].IsCompleted())
   {
     this->State = GAME_WIN;
+  }
+
+  if (this->State == GAME_ACTIVE)
+  {
+    GLfloat velocity = this->Levels[this->Level].PLAYER_VELOCITY * dt;
+    bool collisionBlinky, collisionInky, collisionPinky, collisionClyde = false;
+    Direction blinkyDir = this->GenerateRandomDirection();
+    Direction pinkyDir = this->GenerateRandomDirection();
+    Direction inkyDir = this->GenerateRandomDirection();
+    Direction clydeDir = this->GenerateRandomDirection();
+
+
+    for (GameObject &tile : this->Levels[this->Level].Tiles)
+    {
+      if (tile.IsVisible && tile.IsSolid && CheckCollision(*Blinky, tile, blinkyDir, velocity))
+      {
+        collisionBlinky = true;
+      }
+
+      if (tile.IsVisible && tile.IsSolid && CheckCollision(*Inky, tile, inkyDir, velocity))
+      {
+        collisionInky = true;
+      }
+
+      if (tile.IsVisible && tile.IsSolid && CheckCollision(*Pinky, tile, pinkyDir, velocity))
+      {
+        collisionPinky = true;
+      }
+
+      if (tile.IsVisible && tile.IsSolid && CheckCollision(*Clyde, tile, clydeDir, velocity))
+      {
+        collisionClyde = true;
+      }
+    }
+
+    if (!collisionBlinky) {
+      Blinky->Move(blinkyDir, velocity);
+    }
+
+    if (!collisionInky) {
+      Inky->Move(inkyDir, velocity);
+    }
+
+    if (!collisionPinky) {
+      Pinky->Move(pinkyDir, velocity);
+    }
+
+    if (!collisionClyde) {
+      Clyde->Move(clydeDir, velocity);
+    }
   }
 }
 
@@ -70,7 +135,7 @@ void Game::ProcessInput(GLfloat dt)
       {
         if (tile.IsVisible)
         {
-          if (CheckCollision(*Player, tile, LEFT, velocity))
+          if (CheckCollision(*Player, tile, Direction::LEFT, velocity))
           {
             collision = true;
             if (!tile.IsSolid)
@@ -101,7 +166,7 @@ void Game::ProcessInput(GLfloat dt)
       {
         if (tile.IsVisible)
         {
-          if (CheckCollision(*Player, tile, RIGHT, velocity))
+          if (CheckCollision(*Player, tile, Direction::RIGHT, velocity))
           {
             collision = true;
             if (!tile.IsSolid)
@@ -132,7 +197,7 @@ void Game::ProcessInput(GLfloat dt)
       {
         if (tile.IsVisible)
         {
-          if (CheckCollision(*Player, tile, UP, velocity))
+          if (CheckCollision(*Player, tile, Direction::UP, velocity))
           {
             collision = true;
             if (!tile.IsSolid)
@@ -160,7 +225,7 @@ void Game::ProcessInput(GLfloat dt)
       {
         if (tile.IsVisible)
         {
-          if (CheckCollision(*Player, tile, DOWN, velocity))
+          if (CheckCollision(*Player, tile, Direction::DOWN, velocity))
           {
             collision = true;
             if (!tile.IsSolid)
@@ -195,6 +260,10 @@ void Game::Render()
     // Draw level
     this->Levels[this->Level].Draw(*Renderer);
     Player->Draw(*Renderer);
+    Blinky->Draw(*Renderer);
+    Pinky->Draw(*Renderer);
+    Inky->Draw(*Renderer);
+    Clyde->Draw(*Renderer);
     Text->RenderText("Score:" + ss.str(), 5.0f, 5.0f, 1.0f);
   } else if (this->State == GAME_WIN) {
     Text->RenderText("You win!", 320.0, Height / 2 - 20.0, 1.0);
@@ -212,4 +281,29 @@ void Game::ResetPlayer() {
   GLfloat playerRadius = this->Levels[this->Level].PLAYER_RADIUS;
   GLfloat playerVelocity = this->Levels[this->Level].PLAYER_VELOCITY;
   Player = new PacObject(playerPos, playerRadius, playerVelocity, ResourceManager::GetTexture("pacman"));
+}
+
+void Game::ResetGhosts() {
+  glm::vec2 ghostPos = glm::vec2(this->Levels[this->Level].GHOST_POSITION.x, this->Levels[this->Level].GHOST_POSITION.y);
+  GLfloat ghostVelocity = this->Levels[this->Level].PLAYER_VELOCITY;
+  glm::vec2 ghostSize = this->Levels[this->Level].PLAYER_SIZE;
+  Blinky = new GhostObject(ghostPos, ghostSize, ghostVelocity, ResourceManager::GetTexture("ghost"));
+  Pinky = new GhostObject(ghostPos, ghostSize, ghostVelocity, ResourceManager::GetTexture("ghost2"));
+  Inky = new GhostObject(ghostPos, ghostSize, ghostVelocity, ResourceManager::GetTexture("ghost3"));
+  Clyde = new GhostObject(ghostPos, ghostSize, ghostVelocity, ResourceManager::GetTexture("ghost4"));
+}
+
+Direction Game::GenerateRandomDirection() {
+    // std::srand(std::time(0)); // use current time as seed for random generator
+    float random_variable = std::rand() / double(RAND_MAX);
+
+    if (random_variable < 0.25) {
+      return Direction::UP;
+    } else if (random_variable < 0.5) {
+      return Direction::DOWN;
+    } else if (random_variable < 0.75) {
+      return Direction::RIGHT;
+    } else {
+      return Direction::LEFT;
+    }
 }

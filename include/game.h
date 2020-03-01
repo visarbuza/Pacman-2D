@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <game_level.h>
+#include "direction.h"
 
 // Represents the current state of the game
 enum GameState {
@@ -38,6 +39,8 @@ public:
     void Render();
     void ResetLevel();
     void ResetPlayer();
+    void ResetGhosts();
+    Direction GenerateRandomDirection();
 };
 
 #endif

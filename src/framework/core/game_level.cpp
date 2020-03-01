@@ -53,7 +53,7 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
   GLuint height = tileData.size();
   GLuint width = tileData[0].size(); // Note we can index vector at [0] since this function is only called if height > 0
   GLfloat unit_width = levelWidth / static_cast<GLfloat>(width), unit_height = levelHeight / height;
-  this->PLAYER_SIZE = glm::vec2(unit_width, unit_height);
+  this->PLAYER_SIZE = glm::vec2(unit_width * 0.8, unit_height * 0.8);
   this->PLAYER_VELOCITY = (unit_width + unit_height) * 2;
   this->PLAYER_RADIUS = glm::min(unit_height, unit_width) / 2.3;
   // Initialize level tiles based on tileData
@@ -81,6 +81,10 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
       else if (tileData[y][x] == 2) // Pacman initial position
       {
         this->PLAYER_POSITION = glm::vec2(unit_width * x, unit_height * y);
+      } 
+      else if (tileData[y][x] == 4) // Ghosts initial position
+      {
+        this->GHOST_POSITION = glm::vec2(unit_width * x, unit_height * y);
       }
     }
   }

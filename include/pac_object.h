@@ -1,5 +1,5 @@
-#ifndef BALLOBJECT_H
-#define BALLOBJECT_H
+#ifndef PACOBJECT_H
+#define PACOBJECT_H
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>

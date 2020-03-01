@@ -7,8 +7,8 @@
 #include "text_renderer.h"
 
 SpriteRenderer *Renderer;
-PacObject      *Player;
-TextRenderer   *Text;
+PacObject *Player;
+TextRenderer *Text;
 
 Game::Game(GLuint width, GLuint height)
     : State(GAME_ACTIVE), Keys(), Width(width), Height(height) {}
@@ -54,6 +54,10 @@ void Game::Init()
 
 void Game::Update(GLfloat dt)
 {
+  if (this->State == GAME_ACTIVE && this->Levels[this->Level].IsCompleted())
+  {
+    this->State = GAME_WIN;
+  }
 }
 
 void Game::ProcessInput(GLfloat dt)
@@ -186,14 +190,17 @@ void Game::ProcessInput(GLfloat dt)
 
 void Game::Render()
 {
+  std::stringstream ss;
+  ss << this->Score;
+
   if (this->State == GAME_ACTIVE)
   {
     // Draw level
     this->Levels[this->Level].Draw(*Renderer);
     Player->Draw(*Renderer);
-
-    std::stringstream ss; 
-    ss << this->Score;
     Text->RenderText("Score:" + ss.str(), 5.0f, 5.0f, 1.0f);
+  } else if (this->State == GAME_WIN) {
+    Text->RenderText("You win!", 320.0, Height / 2 - 20.0, 1.0);
+    Text->RenderText("Score:" + ss.str(), 325.0, Height / 2, 1.0);
   }
 }

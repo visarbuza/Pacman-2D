@@ -1,16 +1,10 @@
 #include <glad/glad.h>
 #include <game_object.h>
 #include <pac_object.h>
+#include "ghost_object.h"
+#include "direction.h"
 
-enum Direction
-{
-  UP,
-  DOWN,
-  LEFT,
-  RIGHT
-};
-
-GLboolean CheckCollision(GameObject &one, GameObject &two, Direction direction, GLfloat velocity) // AABB - AABB collision
+GLboolean CheckCollision(GhostObject &one, GameObject &two, Direction direction, GLfloat velocity) // AABB - AABB collision
 {
   if (direction == DOWN || direction == LEFT)
     velocity = -velocity;

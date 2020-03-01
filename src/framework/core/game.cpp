@@ -46,10 +46,7 @@ void Game::Init()
   Text->Load("resources/fonts/ocraext.TTF", 24);
 
   // Configure player
-  glm::vec2 playerPos = glm::vec2(this->Levels[this->Level].PLAYER_POSITION.x, this->Levels[this->Level].PLAYER_POSITION.y);
-  GLfloat playerRadius = this->Levels[this->Level].PLAYER_RADIUS;
-  GLfloat playerVelocity = this->Levels[this->Level].PLAYER_VELOCITY;
-  Player = new PacObject(playerPos, playerRadius, playerVelocity, ResourceManager::GetTexture("pacman"));
+  this->ResetPlayer();
 }
 
 void Game::Update(GLfloat dt)
@@ -203,4 +200,16 @@ void Game::Render()
     Text->RenderText("You win!", 320.0, Height / 2 - 20.0, 1.0);
     Text->RenderText("Score:" + ss.str(), 325.0, Height / 2, 1.0);
   }
+}
+
+void Game::ResetLevel() {
+  this->Levels[0].Load("../levels/level0", this->Width, this->Height);
+  this->Score = 0;
+}
+
+void Game::ResetPlayer() {
+  glm::vec2 playerPos = glm::vec2(this->Levels[this->Level].PLAYER_POSITION.x, this->Levels[this->Level].PLAYER_POSITION.y);
+  GLfloat playerRadius = this->Levels[this->Level].PLAYER_RADIUS;
+  GLfloat playerVelocity = this->Levels[this->Level].PLAYER_VELOCITY;
+  Player = new PacObject(playerPos, playerRadius, playerVelocity, ResourceManager::GetTexture("pacman"));
 }

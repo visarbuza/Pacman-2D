@@ -110,6 +110,8 @@ int main(int argc, char* argv[])
 				if (ImGui::Button("New Game"))
 				{
 					Pacman.State = GAME_ACTIVE;
+          Pacman.ResetLevel();
+          Pacman.ResetPlayer();
 				}
 			}
 			if (ImGui::Button("Exit Game"))
@@ -143,7 +145,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
 	// When a user presses the escape key, we set the state to GAME_PAUSED which pulls up the menu.
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		Pacman.State = GAME_PAUSED;
+    if (Pacman.State == GAME_WIN) 
+      Pacman.State = GAME_MENU;
+		else
+      Pacman.State = GAME_PAUSED;
 	if (key >= 0 && key < 1024)
 	{
 		if (action == GLFW_PRESS)

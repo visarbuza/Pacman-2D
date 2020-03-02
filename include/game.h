@@ -12,7 +12,8 @@ enum GameState {
     GAME_ACTIVE,
     GAME_PAUSED,
     GAME_MENU,
-    GAME_WIN
+    GAME_WIN,
+    GAME_LOSS
 };
 
 // Game holds all game-related state and functionality.
@@ -40,6 +41,7 @@ public:
     void ResetLevel();
     void ResetPlayer();
     void ResetGhosts();
+    void CheckForDeath();
     Direction GenerateRandomDirection();
 };
 

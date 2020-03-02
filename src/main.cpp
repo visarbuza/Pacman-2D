@@ -145,7 +145,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 {
 	// When a user presses the escape key, we set the state to GAME_PAUSED which pulls up the menu.
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-    if (Pacman.State == GAME_WIN) 
+    if (Pacman.State == GAME_WIN || Pacman.State == GAME_LOSS) 
       Pacman.State = GAME_MENU;
 		else
       Pacman.State = GAME_PAUSED;

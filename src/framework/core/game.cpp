@@ -7,6 +7,7 @@
 #include "ghost_object.h"
 #include "util.cpp"
 #include "text_renderer.h"
+#include <vector>
 
 SpriteRenderer  *Renderer;
 PacObject       *Player;
@@ -73,6 +74,7 @@ void Game::Update(GLfloat dt)
 
   if (this->State == GAME_ACTIVE)
   {
+    CheckForDeath();
     GLfloat velocity = this->Levels[this->Level].PLAYER_VELOCITY * dt;
     bool collisionBlinky, collisionInky, collisionPinky, collisionClyde = false;
     Direction blinkyDir = this->GenerateRandomDirection();
@@ -272,6 +274,9 @@ void Game::Render()
   } else if (this->State == GAME_WIN) {
     Text->RenderText("You win!", 320.0, Height / 2 - 20.0, 1.0);
     Text->RenderText("Score:" + ss.str(), 325.0, Height / 2, 1.0);
+  } else if (this->State == GAME_LOSS) {
+    Text->RenderText("You lose!", 320.0, Height / 2 - 20.0, 1.0);
+    Text->RenderText("Score:" + ss.str(), 325.0, Height / 2, 1.0);
   }
 }
 
@@ -296,6 +301,15 @@ void Game::ResetGhosts() {
   Pinky = new GhostObject(ghostPos, ghostSize, ghostVelocity, ResourceManager::GetTexture("ghost2"));
   Inky = new GhostObject(ghostPos, ghostSize, ghostVelocity, ResourceManager::GetTexture("ghost3"));
   Clyde = new GhostObject(ghostPos, ghostSize, ghostVelocity, ResourceManager::GetTexture("ghost4"));
+}
+
+void Game::CheckForDeath() {
+  std::vector<GhostObject> ghostVec = {*Blinky, *Pinky, *Inky, *Clyde};
+  for (GhostObject ghost : ghostVec) {
+    if (CheckCollision(*Player, ghost)) {
+      this->State = GAME_LOSS;
+    }
+  }
 }
 
 Direction Game::GenerateRandomDirection() {

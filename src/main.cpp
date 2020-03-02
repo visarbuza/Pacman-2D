@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 
 		//deltaTime = 0.001f;
 		// Manage user input
-		Pacman.ProcessInput(deltaTime);
+		
 
 		// Update Game state
 		Pacman.Update(deltaTime);

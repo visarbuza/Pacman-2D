@@ -2,11 +2,13 @@
 #include <cstdlib>
 #include "game.h"
 #include "resource_manager.h"
+#include <iostream>
 #include "sprite_renderer.h"
 #include "pac_object.h"
 #include "ghost_object.h"
 #include "util.cpp"
 #include "text_renderer.h"
+#include "direction.h"
 #include <vector>
 
 SpriteRenderer  *Renderer;
@@ -16,6 +18,7 @@ GhostObject           *Blinky;
 GhostObject           *Pinky;
 GhostObject           *Inky;
 GhostObject           *Clyde;
+GLfloat animation = 0;
 
 Game::Game(GLuint width, GLuint height)
     : State(GAME_ACTIVE), Keys(), Width(width), Height(height) {}
@@ -67,6 +70,9 @@ void Game::Init()
 
 void Game::Update(GLfloat dt)
 {
+  animation += dt;
+
+  ProcessInput(dt);
   if (this->State == GAME_ACTIVE && this->Levels[this->Level].IsCompleted())
   {
     this->State = GAME_WIN;
@@ -74,6 +80,18 @@ void Game::Update(GLfloat dt)
 
   if (this->State == GAME_ACTIVE)
   {
+    if(animation >= 0 && animation <= 0.1){
+      Player->Sprite = ResourceManager::GetTexture("pacman0");  
+    } else if ( animation >= 0.1 && animation <= 0.3) {
+      Player->Sprite = ResourceManager::GetTexture("pacman1");
+    } else if (animation >= 0.3 && animation <= 0.4){
+      Player->Sprite = ResourceManager::GetTexture("pacman2");
+    } else if (animation >= 0.4 && animation <= 0.45){
+      Player->Sprite = ResourceManager::GetTexture("pacman3");
+    } else {
+      animation = 0;
+    }
+    
     CheckForDeath();
     GLfloat velocity = this->Levels[this->Level].PLAYER_VELOCITY * dt;
     bool collisionBlinky, collisionInky, collisionPinky, collisionClyde = false;

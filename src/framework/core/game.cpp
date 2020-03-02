@@ -80,14 +80,18 @@ void Game::Update(GLfloat dt)
 
   if (this->State == GAME_ACTIVE)
   {
-    if(animation >= 0 && animation <= 0.1){
+    if(animation < 0.08){
       Player->Sprite = ResourceManager::GetTexture("pacman0");  
-    } else if ( animation >= 0.1 && animation <= 0.3) {
+    } else if (animation < 0.16) {
       Player->Sprite = ResourceManager::GetTexture("pacman1");
-    } else if (animation >= 0.3 && animation <= 0.4){
+    } else if (animation < 0.24) {
       Player->Sprite = ResourceManager::GetTexture("pacman2");
-    } else if (animation >= 0.4 && animation <= 0.45){
+    } else if (animation < 0.32) {
       Player->Sprite = ResourceManager::GetTexture("pacman3");
+    } else if (animation < 0.4) {
+      Player->Sprite = ResourceManager::GetTexture("pacman2");
+    } else if (animation < 0.48) {
+      Player->Sprite = ResourceManager::GetTexture("pacman1");
     } else {
       animation = 0;
     }

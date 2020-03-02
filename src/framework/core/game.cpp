@@ -39,13 +39,13 @@ void Game::Init()
   ResourceManager::GetShader("sprite").Use().SetInteger("image", 0);
   ResourceManager::GetShader("sprite").SetMatrix4("projection", projection);
   // Load textures
-  ResourceManager::LoadTexture("resources/textures/food.png", GL_TRUE, "food");
-  ResourceManager::LoadTexture("resources/textures/wall.png", GL_TRUE, "wall");
-  ResourceManager::LoadTexture("resources/textures/pacman.png", GL_TRUE, "pacman");
-  ResourceManager::LoadTexture("resources/textures/ghost.png", GL_TRUE, "ghost");
-  ResourceManager::LoadTexture("resources/textures/ghost2.png", GL_TRUE, "ghost2");
-  ResourceManager::LoadTexture("resources/textures/ghost3.png", GL_TRUE, "ghost3");
-  ResourceManager::LoadTexture("resources/textures/ghost4.png", GL_TRUE, "ghost4");
+  ResourceManager::LoadTexture("resources/textures/food.png", GL_TRUE, "food", false);
+  ResourceManager::LoadTexture("resources/textures/wall.png", GL_TRUE, "wall", false);
+  ResourceManager::LoadTexture("resources/textures/sprite.png", GL_TRUE, "pacman", true);
+  ResourceManager::LoadTexture("resources/textures/ghost.png", GL_TRUE, "ghost", false);
+  ResourceManager::LoadTexture("resources/textures/ghost2.png", GL_TRUE, "ghost2", false);
+  ResourceManager::LoadTexture("resources/textures/ghost3.png", GL_TRUE, "ghost3", false);
+  ResourceManager::LoadTexture("resources/textures/ghost4.png", GL_TRUE, "ghost4", false);
 
   GameLevel one;
   one.Load("resources/levels/level0", this->Width, this->Height);
@@ -280,7 +280,8 @@ void Game::ResetPlayer() {
   glm::vec2 playerPos = glm::vec2(this->Levels[this->Level].PLAYER_POSITION.x, this->Levels[this->Level].PLAYER_POSITION.y);
   GLfloat playerRadius = this->Levels[this->Level].PLAYER_RADIUS;
   GLfloat playerVelocity = this->Levels[this->Level].PLAYER_VELOCITY;
-  Player = new PacObject(playerPos, playerRadius, playerVelocity, ResourceManager::GetTexture("pacman"));
+  Player = new PacObject(playerPos, playerRadius, playerVelocity, ResourceManager::GetTexture("pacman2"));
+  Player->Rotation = +30.0;
 }
 
 void Game::ResetGhosts() {

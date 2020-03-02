@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include <glad/glad.h>
 
@@ -26,7 +27,7 @@ public:
     // Retrieves a stored sader
     static Shader    GetShader(std::string name);
     // Loads (and generates) a texture from file
-    static Texture2D  LoadTexture(const std::string& file, GLboolean alpha, std::string name);
+    static Texture2D  LoadTexture(const std::string& file, GLboolean alpha, std::string name, bool sprite);
     // Retrieves a stored texture
     static Texture2D GetTexture(std::string name);
     // Properly de-allocates all loaded resources
@@ -38,6 +39,8 @@ private:
     static Shader    loadShaderFromFile(const GLchar *vShaderFile, const GLchar *fShaderFile);
     // Loads a single texture from file
     static Texture2D loadTextureFromFile(const std::string& file, GLboolean alpha);
+    // Load textures from spirte
+    static std::vector<Texture2D> loadTexturesFromSprite(const std::string& file, GLboolean alpha);
 };
 
 #endif

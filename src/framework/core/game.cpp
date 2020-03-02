@@ -131,6 +131,7 @@ void Game::ProcessInput(GLfloat dt)
     // Move playerboard
     if (this->Keys[GLFW_KEY_A])
     {
+      Player->Rotation = 3.14 / 2;
       for (GameObject &tile : this->Levels[this->Level].Tiles)
       {
         if (tile.IsVisible)
@@ -162,6 +163,7 @@ void Game::ProcessInput(GLfloat dt)
     }
     if (this->Keys[GLFW_KEY_D])
     {
+      Player->Rotation = -3.14 / 2;
       for (GameObject &tile : this->Levels[this->Level].Tiles)
       {
         if (tile.IsVisible)
@@ -193,6 +195,7 @@ void Game::ProcessInput(GLfloat dt)
     }
     if (this->Keys[GLFW_KEY_W])
     {
+      Player->Rotation = 3.14;
       for (GameObject &tile : this->Levels[this->Level].Tiles)
       {
         if (tile.IsVisible)
@@ -221,6 +224,7 @@ void Game::ProcessInput(GLfloat dt)
     }
     if (this->Keys[GLFW_KEY_S])
     {
+      Player->Rotation = 0;
       for (GameObject &tile : this->Levels[this->Level].Tiles)
       {
         if (tile.IsVisible)
@@ -280,8 +284,8 @@ void Game::ResetPlayer() {
   glm::vec2 playerPos = glm::vec2(this->Levels[this->Level].PLAYER_POSITION.x, this->Levels[this->Level].PLAYER_POSITION.y);
   GLfloat playerRadius = this->Levels[this->Level].PLAYER_RADIUS;
   GLfloat playerVelocity = this->Levels[this->Level].PLAYER_VELOCITY;
-  Player = new PacObject(playerPos, playerRadius, playerVelocity, ResourceManager::GetTexture("pacman2"));
-  Player->Rotation = +30.0;
+  Player = new PacObject(playerPos, playerRadius, playerVelocity, ResourceManager::GetTexture("pacman0"));
+  Player->Rotation = -3.14 / 2;
 }
 
 void Game::ResetGhosts() {

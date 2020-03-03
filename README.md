@@ -1,25 +1,30 @@
-<!-- # Assignment Repository Skeleton
-
-Please modify the Readme file to your project specifics, including project name, involved group members (including mail contacts), as well as a version history.
-
-In addition, use this file to describe the project functionality, provide setup instructions, and a brief overview on how to use it. -->
-
 # OpenGL PacMan
 
 This project was made for assignment 1 in the course Graphics Programming - IMT2531.
 
 ## How to setup
 
-On linux:
-
 Make sure you have [cmake](https://cmake.org/) version 3.14 or later installed.
 Navigate to the root folder of the project and execute the following commands
+
+On linux:
 ```
 mkdir build
 cd build
 cmake ..
 make
 ./Pacman
+```
+
+On windows:
+```
+mkdir build
+cd build
+cmake ..
+cmake --build .
+cd ..
+cd out/build/x64-Debug
+Pacman.exe
 ```
 
 ## Controls

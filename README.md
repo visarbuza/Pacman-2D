@@ -48,23 +48,23 @@ Now go out there and catch them all! Wait... wrong reference...
 
 ## Version History
 
-[0.1](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/55c92e115078539407991462f21c7646156cc4be) - Added level generation from file 📜
-
-[0.2](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/968a0cad3a0280934f22271348b9a35aeff76685) - Added a menu 📄
-
-[0.3](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/022ca779469df3c6b28f3c6b237dce52538e850c) - Glitchy collisions 💥
-
-[0.4](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/4355aa3e494325943c60ba56cb89ebe02ff4197c) - Better collisions (not really lol) 💥➕➕
-
-[0.5](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/5eac403f32c6650a3894ab4015feb4925c06f332) - Added player score 💯
-
-[0.6](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/013fca38f9400727cc05f50c81faeb579e41f80a) - Added ghosts 👻
-
-[1.0](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/58de1b9f5561d5c27580a00f67b76f5476261ea6) - Added death 💀
+[1.2](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/9497a9fdc7b1b1f62846dac37724a452c0827753) - Better ghost movement 👻➕➕
 
 [1.1](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/a7b29e633a19f81bbcd56f38acd425c1fa64dea0) - Added pacman animations 🏃‍♂️
 
-[1.2](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/9497a9fdc7b1b1f62846dac37724a452c0827753) - Better ghost movement 👻➕➕
+[1.0](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/58de1b9f5561d5c27580a00f67b76f5476261ea6) - Added death 💀
+
+[0.6](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/013fca38f9400727cc05f50c81faeb579e41f80a) - Added ghosts 👻
+
+[0.5](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/5eac403f32c6650a3894ab4015feb4925c06f332) - Added player score 💯
+
+[0.4](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/4355aa3e494325943c60ba56cb89ebe02ff4197c) - Better collisions (not really lol) 💥➕➕
+
+[0.3](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/022ca779469df3c6b28f3c6b237dce52538e850c) - Glitchy collisions 💥
+
+[0.2](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/968a0cad3a0280934f22271348b9a35aeff76685) - Added a menu 📄
+
+[0.1](https://git.gvk.idi.ntnu.no/arditbaloku/imt2531_assignment1/-/commit/55c92e115078539407991462f21c7646156cc4be) - Added level generation from file 📜
 
 ## Members
 

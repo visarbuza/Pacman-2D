@@ -30,6 +30,10 @@ public:
     static Texture2D  LoadTexture(const std::string& file, GLboolean alpha, std::string name, bool sprite);
     // Retrieves a stored texture
     static Texture2D GetTexture(std::string name);
+    // Read highscore
+    static std::vector<int> ReadHighscore(const std::string& file);
+    // Write highscore
+    static void WriteHighscore(const int score);
     // Properly de-allocates all loaded resources
     static void      Clear();
 private:

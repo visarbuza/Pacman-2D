@@ -44,6 +44,18 @@ Texture2D ResourceManager::GetTexture(std::string name)
     return Textures[name];
 }
 
+std::vector<int> ResourceManager::ReadHighscore(const std::string& file)
+{
+    std::vector<int> highscores{};
+    std::fstream highscoreFile(file);
+    return highscores;
+}
+
+void ResourceManager::WriteHighscore(int score)
+{
+    
+}
+
 void ResourceManager::Clear()
 {
     // (Properly) delete all shaders

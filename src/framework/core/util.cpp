@@ -61,5 +61,5 @@ GLboolean CheckCollision(PacObject &one, GameObject &two) // AABB - Circle colli
 }  
 
 float clamp(float value, float min, float max) {
-    return std::max(min, std::min(max, value));
+    return glm::max(min, glm::min(max, value));
 } 

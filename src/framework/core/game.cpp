@@ -19,10 +19,10 @@ GhostObject           *Pinky;
 GhostObject           *Inky;
 GhostObject           *Clyde;
 GLfloat animation = 0;
-Direction blinkyDir;
-Direction pinkyDir;
-Direction inkyDir;
-Direction clydeDir;
+Direction blinkyDir = Direction::DOWN;
+Direction pinkyDir = Direction::DOWN;
+Direction inkyDir = Direction::DOWN;
+Direction clydeDir = Direction::DOWN;
 
 Game::Game(GLuint width, GLuint height)
     : State(GAME_ACTIVE), Keys(), Width(width), Height(height) {}
@@ -102,7 +102,7 @@ void Game::Update(GLfloat dt)
     
     CheckForDeath();
     GLfloat velocity = this->Levels[this->Level].PLAYER_VELOCITY * dt;
-    bool collisionBlinky, collisionInky, collisionPinky, collisionClyde = false;
+    bool collisionBlinky = false, collisionInky = false, collisionPinky = false, collisionClyde = false;
     if (animation < 0.05) {
       blinkyDir = this->GenerateRandomDirection();
       pinkyDir = this->GenerateRandomDirection();

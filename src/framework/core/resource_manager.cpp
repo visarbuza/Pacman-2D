@@ -123,7 +123,7 @@ std::vector<Texture2D> ResourceManager::loadTexturesFromSprite(const std::string
         }
 
         int i, j = 0;
-        int size = 72;
+        const int size = 72;
         unsigned char newImage[size * size * 4];
 
         for (i = k * size * 4 ; i < width * height * 4; i++)
